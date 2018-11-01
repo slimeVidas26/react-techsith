@@ -1,47 +1,42 @@
 import React , {Component} from 'react';
 import User from './User';
-//CLASS
-
-
 
 class Users extends Component{
     state = {
-        Users : [
+        users : [
             {"name":"John","age":45},
             {"name":"Peter","age":23},
             {"name":"Sam","age":56}
         ],
-        Title:"Users List"
+        Title:"Users List",
+        message:''
     };
 
-    makeMeYounger = ()=>{
-       const youngerUsers = this.state.Users.map((user)=>{
-            //const youngerUser = user;
-            user.age-=10;
-            if(user.age<0){
-                user.age = 0;
-            }
-            return user;
-       });
-       this.setState({
-        youngerUsers
-       })
+    deleteUser = (index)=>{
+        const objUsers = Object.assign([],this.state.users);
+        objUsers.splice(index,1);
+        if(!objUsers.length){
+            this.setState({Title:'Users List is empty'})
+        }
+        this.setState({users : objUsers});
+
+        //try array.filter method
+
+        
     }
-   
     render(){
         return(
             <div>
-                <button onClick = {this.makeMeYounger}>Make me 10 years old younger</button>
                 <br/>
                 <h1>{this.state.Title}</h1>
+                <ul>
              {
-                 this.state.Users.map((user)=>{
-                     return <User age={user.age}>{user.name}</User>
+                 this.state.users.map((user,index)=>{
+                     return <User delete={this.deleteUser.bind(this,index)} age={user.age}>{user.name}</User>
                  })
              }
-            
-              
-              
+             </ul> 
+             <div>{this.state.message}</div>
             </div>
         )
     }
