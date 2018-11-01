@@ -1,34 +1,44 @@
 import React, { Component } from 'react';
 import './App.css';
+import Child from './components/parentToChild/child';
+import Parent from './components/parentToChild/parent';
+
 
 
 
 class App extends Component {
-  state = {
-    name : "Techsith"
-  }
+ state={
+   titlePrimary:'Click me',
+   titleWarning:'Click me',
+   
 
-  changeName= (newName) =>{
-    this.setState({
-        name : newName
-    });
-  }
-  changeNameFromInput= (event) =>{
-    this.setState({
-        name : event.target.value
-    });
-  }
+ }
+
+ changeTitlePrimary(newTitle){
+   this.setState({
+    titlePrimary:newTitle,
+    titleWarning:"click me"
+   })
+ }
+
+ changeTitleWarning(newTitle){
+  this.setState({
+    titleWarning:newTitle,
+    titlePrimary:"click me"
+
+
+  })
+ }
 
   render() {
     return (
       <div className="App">
-        <br/>  <br/>
-        <button onClick = {()=> this.changeName('Awesome Techsith anonymous')}>Change state using anonymous function</button>
-        <button onClick = { this.changeName.bind(this,'Awesome Techsith binding')}>Change state using binding function</button>
-
-        <br/>  <br/>
-        <input type="text" onChange = {this.changeNameFromInput} value = {this.state.name}/>
-        <div>{this.state.name}</div>
+      <Parent 
+      changeTitlePrimary = {this.changeTitlePrimary.bind(this,"isPrimary")}
+      changeTitleWarning = {this.changeTitleWarning.bind(this,"isWarning")}
+      titlePrimary = {this.state.titlePrimary}
+      titleWarning = {this.state.titleWarning}
+      />
 
      
       </div>
