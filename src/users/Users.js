@@ -52,14 +52,23 @@ class Users extends Component{
        
      }
 
+
      changeUserName = (id,e)=>{
+        // The findIndex() method returns the index of the first element
+        //  in the array that satisfies the provided testing function.
+        //   Otherwise, it returns -1, indicating no element passed the test
          const index = this.state.users.findIndex((user)=>{
             return user.id===id;
          })
+         console.log("index", index)
          const user = Object.assign({}, this.state.users[index]);
+         console.log("user", index)
+
          user.name = e.target.value;
 
          const users = Object.assign([],this.state.users);
+         console.log("users", users)
+
          users[index] = user;
          this.setState({users:users});
            
@@ -78,7 +87,7 @@ class Users extends Component{
                 return <User
                       delete={this.deleteUser.bind(this,index)}
                       changeEvent = {this.changeUserName.bind(this,user.id)}
-                       age={user.age}>
+                       id={user.id}>
                        {user.name}
                       
                        </User>
