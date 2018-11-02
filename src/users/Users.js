@@ -1,16 +1,24 @@
 import React , {Component} from 'react';
 import User from './User';
+import UniqueId from 'react-html-id';
 
 class Users extends Component{
-    state = {
-        users : [
-            {"name":"John","age":45},
-            {"name":"Peter","age":23},
-            {"name":"Sam","age":56}
-        ],
-        Title:"Users List",
-        message:''
-    };
+
+    constructor(){
+        super();
+        UniqueId.enableUniqueIds(this);
+        this.state = {
+            users : [
+                {"id":this.nextUniqueId() , "name":"John","age":45},
+                {"id":this.nextUniqueId() ,"name":"Peter","age":23},
+                {"id":this.nextUniqueId() ,"name":"Sam","age":56}
+            ],
+            Title:"Users List",
+            message:''
+        };
+        console.log(this.state)
+    }
+   
 
     
 //Obj.assign method to delete user
@@ -32,15 +40,30 @@ class Users extends Component{
         
         this.setState({
         users: users.filter((user,i)=>{
-            if(users.length==1){
-            this.setState({Title:'Users List is empty'})
-                     }
-            console.log("Deleted" , index) 
-        return i!==index;
+            
+        return i!==index;   
+     })
+     })
 
-        
-     })
-     })
+     if(users.length===1){
+        this.setState({Title:'Users List is empty'})
+        //console.log("Deleted" , index) 
+                 }
+       
+     }
+
+     changeUserName = (id,e)=>{
+         const index = this.state.users.findIndex((user)=>{
+            return user.id===id;
+         })
+         const user = Object.assign({}, this.state.users[index]);
+         user.name = e.target.value;
+
+         const users = Object.assign([],this.state.users);
+         users[index] = user;
+         this.setState({users:users});
+           
+         
      }
 
 
@@ -52,7 +75,13 @@ class Users extends Component{
                 <ul>
              {
                  this.state.users.map((user,index)=>{
-                     return <User delete={this.deleteUser.bind(this,index)} age={user.age}>{user.name}</User>
+                return <User
+                      delete={this.deleteUser.bind(this,index)}
+                      changeEvent = {this.changeUserName.bind(this,user.id)}
+                       age={user.age}>
+                       {user.name}
+                      
+                       </User>
                  })
              }
              </ul> 
