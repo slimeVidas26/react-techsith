@@ -12,18 +12,38 @@ class Users extends Component{
         message:''
     };
 
-    deleteUser = (index)=>{
-        const objUsers = Object.assign([],this.state.users);
-        objUsers.splice(index,1);
-        if(!objUsers.length){
-            this.setState({Title:'Users List is empty'})
-        }
-        this.setState({users : objUsers});
+    
+//Obj.assign method to delete user
 
-        //try array.filter method
+    // deleteUser = (index)=>{
+    //     const objUsers = Object.assign([],this.state.users);
+    //     objUsers.splice(index,1);
+    //     if(!objUsers.length){
+    //         this.setState({Title:'Users List is empty'})
+    //     }
+    //     this.setState({users : objUsers});
+
+    // }
+
+     //try array.filter method 
+     
+     deleteUser = (index)=>{
+        const {users} = this.state;
+        
+        this.setState({
+        users: users.filter((user,i)=>{
+            if(users.length==1){
+            this.setState({Title:'Users List is empty'})
+                     }
+            console.log("Deleted" , index) 
+        return i!==index;
 
         
-    }
+     })
+     })
+     }
+
+
     render(){
         return(
             <div>
