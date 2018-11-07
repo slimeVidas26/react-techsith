@@ -1,4 +1,4 @@
-import React , {Component} from 'react';
+import React , {Component , Fragment} from 'react';
 import User from './User';
 import UniqueId from 'react-html-id';
 
@@ -73,7 +73,7 @@ class Users extends Component{
                    )
            } else {
             return (
-              <div>
+              <Fragment>
                     <h1>{this.state.title}</h1>
                     
                     <ul>
@@ -93,7 +93,7 @@ class Users extends Component{
                     </ul>
 
 
-           </div>    
+           </Fragment>    
           )
         }
     }
