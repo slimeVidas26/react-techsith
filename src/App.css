@@ -33,10 +33,24 @@
 
 .btn{
   margin-left: 15px;
+  min-width: 140px;
+  max-width: 200px;
+
   
 }
 
 li{
   margin-bottom: 20px;
   list-style-type: none;
+}
+li > span{
+  margin-right: 10px;
+}
+
+.no-user{
+  color:red;
+}
+
+.bold{
+  font-weight: bold;
 }
