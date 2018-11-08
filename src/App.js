@@ -1,88 +1,43 @@
-import React, {Component} from 'react';
+import React, {Component , PureComponent} from 'react';
 import './App.css';
-import Child from './child';
 
 
-class App extends Component {
+const Temp  =(props)=>{
+    console.log("render Temp")
 
-    constructor(){
-        super();
-        this.state = {
-            name :"John"
-        }
-        console.log("constructor");
-    }
+  return (<div><h1>{props.val}</h1></div>);
+}
 
-    componentWillMount(){
-        //only runs once
-        if(window.innerWidth > 500){
-            this.setState({innerWidth:window.innerWidth})
-        }
-        console.log("componentWillMount");
+class App extends PureComponent {
+   state = {
+       val: 1
+   }
+//setInterval(()=>{ alert("Hello"); }, 3000);
+   componentDidMount(){
+     setInterval(()=>{
+         this.setState(()=>{
+             return {val:1}
+         })
+     },5000)
+   }
 
-    }
-
-    componentDidMount(){
-        console.log("componentDidMount");
-    }
-
-    componentWillReceiveProps(){
-        console.log("componentWillReceiveProps");
+//    shouldComponentUpdate(nextProps,nextState){
+//        console.log("nextState",nextState)
+//        console.log("current state" , this.state)
+//        return(this.state.val === nextState.val? false:true);
+//    }
    
-    }
-
-    shouldComponentUpdate(nextProps , nextState){
-        console.log("shouldComponentUpdate");
-
-        return true;
-    }
-
-    componentWillUpdate(){
-        console.log("componentWillUpdate");
-  
-    }
-
-    componentDidUpdate(prevProps , prevState){
-        console.log(" componentDidUpdate");
-    }
-
-    componentWillUnmount(){
-        console.log(" componentWillUnmount");
-   
-    }
-
-    unmountChild(){
-        this.setState({
-            name:"Robert"
-        })
-    }
-
-    changeState = ()=>{
-        this.setState({
-            name:"Peter"
-        })
-    }
     render() {
-       console.log("render")
-       if(this.state.name=== "Robert"){
-           return(
-               <div/>
-           )
-       }
-       else{
-
+     
+console.log("render App")
         return (
             <div className="App">
-                name:{this.state.name} <br/>
-                innerWidth:{this.state.innerWidth}
-                <Child name = {this.state.name}/>
-                <button onClick={this.changeState.bind(this)}>ChangeState</button>
-                <button onClick={this.unmountChild.bind(this)}>unmountChild</button>
-
+                <br/><br/><br/><br/><br/><br/><br/>
+              <Temp val = {this.state.val}/>
              
             </div>
       )
-       }
+       
            
         };
     }
