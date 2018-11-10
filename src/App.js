@@ -1,46 +1,76 @@
-import React, {Component , PureComponent} from 'react';
+import React, {Component} from 'react';
 import './App.css';
+import {BrowserRouter as Router , Link , NavLink , Redirect , Prompt} from 'react-router-dom';
+import Route from 'react-router-dom/Route';
 
-
-const Temp  =(props)=>{
-    console.log("render Temp")
-
-  return (<div><h1>{props.val}</h1></div>);
+const User =(params)=>{
+return (<h1>Welcome user {params.username}</h1>)
 }
 
-class App extends PureComponent {
-   state = {
-       val: 1
-   }
-//setInterval(()=>{ alert("Hello"); }, 3000);
-   componentDidMount(){
-     setInterval(()=>{
-         this.setState(()=>{
-             return {val:1}
-         })
-     },5000)
-   }
+class App extends Component {
 
-//    shouldComponentUpdate(nextProps,nextState){
-//        console.log("nextState",nextState)
-//        console.log("current state" , this.state)
-//        return(this.state.val === nextState.val? false:true);
-//    }
-   
-    render() {
-     
-console.log("render App")
-        return (
-            <div className="App">
-                <br/><br/><br/><br/><br/><br/><br/>
-              <Temp val = {this.state.val}/>
-             
-            </div>
-      )
-       
-           
-        };
+    state = {
+        loggedIn:false
     }
 
+   
+
+    handleClick = ()=>{
+        this.setState(
+                    prevState=>(
+                        {loggedIn: ! prevState.loggedIn}
+                            )
+                     )
+    }
+
+    render() {
+        return (
+            <Router>
+              <div className="App">
+<ul>
+    <li><NavLink to = "/" exact activeStyle={{color:'green'}}>Home</NavLink></li>
+    <li><NavLink to = "/about" exact activeStyle={{color:'green'}}>About</NavLink></li>
+    <li><NavLink to = "/user/john" exact activeStyle={{color:'green'}}>User John</NavLink></li>
+    <li><NavLink to = "/user/peter" exact activeStyle={{color:'green'}}>User Peter</NavLink></li>
+</ul>
+
+<Prompt
+when = {!this.state.loggedIn}
+message = {
+    (location)=>{
+        return location.pathname.startsWith('/user') ? 'Are you sure ?':true
+    }
+}
+/>
+
+<input type="button" className ={this.state.loggedIn ?"btn btn-primary" :"btn btn-danger" } value={this.state.loggedIn ?"Click to log out" :"Click to log in" }  onClick={this.handleClick.bind(this)}/>
+
+
+               
+                 
+              <Route path ="/" exact strict render={
+                    ()=>{
+                        return (<h1>Welcome home</h1>)
+                    } 
+              }/>
+
+               <Route path ="/about" exact strict render={
+                    ()=>{
+                        return (<h1>Welcome about</h1>)
+                    } 
+              }/>
+              <Route path ="/user/:username" exact strict render={
+                  ({match})=>(
+                  this.state.loggedIn ? (<User username = {match.params.username}/>) : (<Redirect to="/"/>)
+                             )
+              }
+              />
+
+              </div>
+            </Router>
+        )
+
+    };
+}
 
 export default App;
